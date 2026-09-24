@@ -25,6 +25,9 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      - name: Add CNAME file
+        run: echo "harrybromley.com" > ./dist/CNAME
+
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
