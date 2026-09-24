@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Robot } from '../game/robot'
 
-export default function RobotCanvas({ robotRef }) {
+export default function RobotCanvas({ robotRef, accent }) {
   const canvasRef = useRef(null)
   const robot = useRef(null)
 
@@ -48,6 +48,10 @@ export default function RobotCanvas({ robotRef }) {
       robotRef.current = null
     }
   }, [robotRef])
+
+  useEffect(() => {
+    if (robot.current) robot.current.accent = accent
+  }, [accent])
 
   const handleClick = (e) => {
     const rect = canvasRef.current.getBoundingClientRect()

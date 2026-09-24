@@ -1,10 +1,23 @@
 const TAU = Math.PI * 2
-const UNPACK_DURATION = 0.65
 const UNPACK_RAISE = 0.2
-const UNPACK_GROW = 0.35
-const UNPACK_COLOR = '#f2f1ed'
+const UNPACK_HOLD = 0.15
+const UNPACK_LOWER = 0.25
+const UNPACK_TOTAL = UNPACK_RAISE + UNPACK_HOLD + UNPACK_LOWER
 const REACH_DURATION = 0.55
 const EASE = (t) => t * t * (3 - 2 * t)
+const FLOOR_CELLS = 3
+const FLOOR_GAP = 4
+const FLOOR_COLORS = [
+  '#ff6b6b',
+  '#ffd93d',
+  '#6bcb77',
+  '#4d96ff',
+  '#6c5ce7',
+  '#ff9f43',
+  '#c780fa',
+  '#4ecdc4',
+  '#ff7eb6',
+]
 
 function limb(ctx, px, py, len, width, ang) {
   ctx.save()
@@ -33,12 +46,14 @@ export class Robot {
 
     this.target = null
     this.onArrive = null
-    this.onUnpackDone = null
     this.onReachDone = null
 
     this.mouseX = null
     this.mouseY = null
     this.wave = 0
+    this.showFloor = false
+    this.dance = 0
+    this.accent = '#ffffff'
   }
 
   resetFor(size) {
@@ -58,11 +73,9 @@ export class Robot {
     this.state = 'walking'
   }
 
-  unpack(origin, onDone) {
+  unpack() {
     this.state = 'unpacking'
     this.unpackTime = 0
-    this.coverOrigin = origin || { x: this.x, y: this.y }
-    this.onUnpackDone = onDone || null
   }
 
   reach(onDone) {
@@ -103,11 +116,8 @@ export class Robot {
       }
     } else if (this.state === 'unpacking') {
       this.unpackTime += dt
-      if (this.unpackTime >= UNPACK_DURATION) {
+      if (this.unpackTime >= UNPACK_TOTAL) {
         this.state = 'idle'
-        const cb = this.onUnpackDone
-        this.onUnpackDone = null
-        if (cb) cb()
       }
     }
 
@@ -123,6 +133,17 @@ export class Robot {
     } else {
       this.wave = Math.max(0, this.wave - dt / 0.2)
     }
+
+    const f = this.showFloor ? this.floorRect() : null
+    const inFloor =
+      !!f &&
+      this.x >= f.left &&
+      this.x <= f.right &&
+      this.y >= f.top &&
+      this.y <= f.bottom
+    const wantDance = this.state === 'idle' && inFloor
+    if (wantDance) this.dance = Math.min(1, this.dance + dt / 0.25)
+    else this.dance = Math.max(0, this.dance - dt / 0.2)
   }
 
   draw(ctx) {
@@ -131,49 +152,78 @@ export class Robot {
     const walking = this.state === 'walking'
     const reaching = this.state === 'reaching'
     const unpacking = this.state === 'unpacking'
-    const raise = unpacking
-      ? EASE(Math.min(this.unpackTime / UNPACK_RAISE, 1))
-      : reaching
-        ? EASE(Math.min(this.unpackTime / REACH_DURATION, 1))
-        : 0
+    let raise = 0
+    if (unpacking) {
+      const t = this.unpackTime
+      if (t < UNPACK_RAISE) raise = EASE(t / UNPACK_RAISE)
+      else if (t < UNPACK_RAISE + UNPACK_HOLD) raise = 1
+      else raise = 1 - EASE((t - UNPACK_RAISE - UNPACK_HOLD) / UNPACK_LOWER)
+    } else if (reaching) {
+      raise = EASE(Math.min(this.unpackTime / REACH_DURATION, 1))
+    }
     const shake = unpacking ? Math.sin(performance.now() / 12) * 2 * raise : 0
     const breathe = reaching ? Math.sin(this.clock * 3) * 1.2 : Math.sin(this.clock * 2.2) * 1.4
-    const bob = walking ? -Math.abs(Math.sin(this.walkTime * 13)) * 5 : breathe
+    const danceBob = this.dance > 0 ? -Math.abs(Math.sin(this.clock * 9)) * 10 * this.dance : 0
+    const danceTilt = this.dance > 0 ? Math.sin(this.clock * 7) * 0.16 * this.dance : 0
+    const danceArm = this.dance > 0 ? Math.sin(this.clock * 9) * 1.0 * this.dance : 0
+    const bob = (walking ? -Math.abs(Math.sin(this.walkTime * 13)) * 5 : breathe) + danceBob
     const swing = walking ? Math.sin(this.walkTime * 13) : 0
     const stepLift = walking ? Math.abs(Math.sin(this.walkTime * 13)) * 6 : 0
+
+    if (this.showFloor) this.drawFloor(ctx)
 
     ctx.save()
     ctx.translate(this.x, this.y + shake)
 
-    if (unpacking && raise >= 1) {
-      ctx.restore()
-      this.drawCover(ctx)
-    } else {
-      this.drawActor(ctx, {
-        bob,
-        swing,
-        stepLift,
-        walking,
-        raise,
-      })
-      ctx.restore()
+    this.drawActor(ctx, {
+      bob,
+      swing,
+      stepLift,
+      walking,
+      raise,
+      danceTilt,
+      danceArm,
+    })
+
+    ctx.restore()
+  }
+
+  floorRect() {
+    const s = 170
+    const left = (this.w - s) / 2
+    const top = this.h * 0.6 - s / 2
+    return { left, top, right: left + s, bottom: top + s }
+  }
+
+  drawFloor(ctx) {
+    const f = this.floorRect()
+    const size = f.right - f.left
+    const cell = (size - FLOOR_GAP * (FLOOR_CELLS - 1)) / FLOOR_CELLS
+    for (let row = 0; row < FLOOR_CELLS; row++) {
+      for (let col = 0; col < FLOOR_CELLS; col++) {
+        const x = f.left + col * (cell + FLOOR_GAP)
+        const y = f.top + row * (cell + FLOOR_GAP)
+        ctx.fillStyle = FLOOR_COLORS[row * FLOOR_CELLS + col]
+        ctx.beginPath()
+        ctx.roundRect(x, y, cell, cell, 6)
+        ctx.fill()
+      }
     }
   }
 
   drawActor(ctx, s) {
-    const { bob, swing, stepLift, walking, raise } = s
+    const { bob, swing, stepLift, walking, raise, danceTilt, danceArm } = s
 
     ctx.translate(0, bob)
+    ctx.rotate(danceTilt)
     ctx.scale(this.facing, 1)
-
-    ctx.fillStyle = '#ffffff'
 
     ctx.beginPath()
     ctx.ellipse(0, 0, 26, 6, 0, 0, TAU)
     ctx.fillStyle = 'rgba(255, 255, 255, 0.14)'
     ctx.fill()
 
-    ctx.fillStyle = '#ffffff'
+    ctx.fillStyle = this.accent
 
     ctx.save()
     ctx.translate(0, -stepLift)
@@ -184,8 +234,8 @@ export class Robot {
     const armSwing = walking ? -swing * 0.45 : 0
     const waveBase = -this.wave * Math.PI * 0.9
     const waveOsc = this.wave * Math.sin(this.clock * 8) * 0.35
-    limb(ctx, -18, -62, 26, 7, armSwing - raise * Math.PI * 0.95)
-    limb(ctx, 18, -62, 26, 7, -armSwing + raise * Math.PI * 0.95 + waveBase + waveOsc)
+    limb(ctx, -18, -62, 26, 7, armSwing - raise * Math.PI * 0.95 + danceArm)
+    limb(ctx, 18, -62, 26, 7, -armSwing + raise * Math.PI * 0.95 + waveBase + waveOsc - danceArm)
 
     ctx.beginPath()
     ctx.roundRect(-10, -30, 20, 8, 3)
@@ -200,13 +250,13 @@ export class Robot {
     ctx.roundRect(-9, -52, 18, 6, 2)
     ctx.fill()
 
-    ctx.fillStyle = '#ffffff'
+    ctx.fillStyle = this.accent
 
     ctx.beginPath()
     ctx.roundRect(-15, -72, 30, 22, 6)
     ctx.fill()
 
-    ctx.strokeStyle = '#ffffff'
+    ctx.strokeStyle = this.accent
     ctx.lineWidth = 3
     ctx.beginPath()
     ctx.moveTo(1, -72)
@@ -220,27 +270,6 @@ export class Robot {
     ctx.beginPath()
     ctx.arc(-5, -63, 3, 0, TAU)
     ctx.arc(5, -63, 3, 0, TAU)
-    ctx.fill()
-  }
-
-  drawCover(ctx) {
-    const { x: ox, y: oy } = this.coverOrigin
-    const corners = [
-      [0, 0],
-      [this.w, 0],
-      [0, this.h],
-      [this.w, this.h],
-    ]
-    const maxDist = Math.max(
-      ...corners.map(([cx, cy]) => Math.hypot(cx - ox, cy - oy)),
-    )
-    const p = EASE(
-      Math.min(Math.max((this.unpackTime - UNPACK_RAISE) / UNPACK_GROW, 0), 1),
-    )
-    const radius = Math.max(10, maxDist * p)
-    ctx.fillStyle = UNPACK_COLOR
-    ctx.beginPath()
-    ctx.roundRect(ox - radius, oy - radius, radius * 2, radius * 2, 14)
     ctx.fill()
   }
 }
