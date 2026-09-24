@@ -1,4 +1,4 @@
-export const ACCENTS = ['#ffffff', '#d0d0d0', '#a0a0a0']
+export const ACCENTS = ['#ffffff', '#dadada', '#a0a0a0']
 
 export default function ColourSlider({ accent, onChange }) {
   return (

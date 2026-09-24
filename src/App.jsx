@@ -27,7 +27,7 @@ function coverRadius(ox, oy) {
 export default function App() {
   const [route, setRoute] = useState(getRoute)
   const [cover, setCover] = useState(null)
-  const [accent, setAccent] = useState(ACCENTS[0])
+  const [accent, setAccent] = useState(ACCENTS[1])
   const robotRef = useRef(null)
   const busyRef = useRef(false)
   const timersRef = useRef([])
