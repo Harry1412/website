@@ -28,6 +28,7 @@ export default function App() {
   const [route, setRoute] = useState(getRoute)
   const [cover, setCover] = useState(null)
   const [accent, setAccent] = useState(ACCENTS[1])
+  const [solved, setSolved] = useState(false)
   const robotRef = useRef(null)
   const busyRef = useRef(false)
   const timersRef = useRef([])
@@ -43,9 +44,9 @@ export default function App() {
 
   useEffect(() => {
     if (robotRef.current) {
-      robotRef.current.showFloor = route === '/surprise'
+      robotRef.current.showFloor = route === '/surprise' && solved
     }
-  }, [route])
+  }, [route, solved])
 
   const schedule = useCallback((fn, ms) => {
     timersRef.current.push(setTimeout(fn, ms))
@@ -87,7 +88,8 @@ export default function App() {
 
   let page
   if (route === '/about') page = <AboutPage />
-  else if (route === '/surprise') page = <SurprisePage />
+  else if (route === '/surprise')
+    page = <SurprisePage solved={solved} onSolve={() => setSolved(true)} />
   else page = <HomePage />
 
   return (

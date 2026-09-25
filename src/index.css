@@ -162,6 +162,64 @@ body {
   text-align: center;
 }
 
+.riddle {
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.riddle-form {
+  pointer-events: auto;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 26px;
+}
+
+.riddle-input {
+  font: inherit;
+  font-size: 16px;
+  padding: 10px 14px;
+  background: transparent;
+  color: var(--accent, #ffffff);
+  border: 1px solid var(--accent, #ffffff);
+  border-radius: 6px;
+  min-width: 220px;
+}
+
+.riddle-input::placeholder {
+  color: var(--accent, #ffffff);
+  opacity: 0.45;
+}
+
+.riddle-input:focus {
+  outline: 2px solid var(--accent, #ffffff);
+  outline-offset: 1px;
+}
+
+.riddle-submit {
+  font: inherit;
+  font-size: 15px;
+  padding: 10px 18px;
+  background: var(--accent, #ffffff);
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.riddle-submit:hover {
+  opacity: 0.85;
+}
+
+.riddle-feedback {
+  margin-top: 14px;
+  color: #ff6b6b;
+}
+
+.riddle-solved {
+  margin-top: 8px;
+}
+
 .timeline {
   --timeline-gap: 28px;
   position: relative;

@@ -4,7 +4,7 @@ import ColourSlider from './ColourSlider'
 const ITEMS = [
   { label: 'Home', route: '/' },
   { label: 'About', route: '/about' },
-  { label: 'Surprise', route: '/surprise' },
+  { label: "Don't click me", route: '/surprise' },
 ]
 
 export default function NavBar({ active, onNavigate, accent, onAccentChange }) {
