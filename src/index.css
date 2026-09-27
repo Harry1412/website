@@ -298,6 +298,13 @@ body {
   color: #ff6b6b;
 }
 
+.riddle-hint {
+  margin-top: 12px;
+  font-size: 15px;
+  line-height: 1.5;
+  opacity: 0.6;
+}
+
 .riddle-solved {
   margin-top: 8px;
 }

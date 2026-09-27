@@ -5,6 +5,7 @@ const VALID_ANSWERS = new Set(['robot', 'a robot'])
 export default function SurprisePage({ solved, onSolve }) {
   const [value, setValue] = useState('')
   const [wrong, setWrong] = useState(false)
+  const [attempts, setAttempts] = useState(0)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -13,6 +14,7 @@ export default function SurprisePage({ solved, onSolve }) {
       onSolve()
     } else {
       setWrong(true)
+      setAttempts((a) => a + 1)
     }
   }
 
@@ -25,7 +27,7 @@ export default function SurprisePage({ solved, onSolve }) {
         <>
           <p className="riddle">
             People say I have a heart but I'm hollow inside, I'm built from a
-            hundred little parts and not one of them has a mind — what am I?
+            hundred little parts and not one of them has a mind, what am I?
           </p>
           <form className="riddle-form" onSubmit={handleSubmit}>
             <input
@@ -44,6 +46,9 @@ export default function SurprisePage({ solved, onSolve }) {
             </button>
           </form>
           {wrong && <p className="riddle-feedback">Not quite — try again.</p>}
+          {attempts >= 3 && (
+            <p className="riddle-hint">Hint: What can you see on this page.</p>
+          )}
         </>
       )}
     </section>
