@@ -1,11 +1,21 @@
 const EXPERIENCES = [
   {
+    title: 'Aegiq • Quantum Software Engineer',
+    description: `Architected Aegiq's software stack for its first generation
+      quantum computing system. Built various aspects including the Lightworks
+      SDK, and a custom compiler. Implemented code for tomography, and improved
+      system performance through AI-assisted calibration.`,
+  },
+  {
     title: 'Aegiq • Various Roles',
-    description: `TODO: Add description (may split into multiple roles.)`,
+    description: `Built a component library for Aegiq's single photon sources,
+      later expanded responsibility to include aspects of quantum computing 
+      theory and near term application development.`,
   },
   {
     title: 'University of St. Andrews • Theoretical Physics (MPhys)',
-      description: `TODO: Add key modules & final year project.`,
+      description: `First-Class Honors Degree. Final year project on simulating
+        quantum light pulses in nonlinear optical networks.`,
   },
 ]
 
@@ -16,8 +26,11 @@ const SKILLS = [
   'Python',
   'Git',
   'Git{Hub,Lab} & CI/CD',
+  'Quantum Computing',
+  'Quantum Tomography',
   'Rust',
   'Julia',
+  'Photonic FDTD Simulation',
 ]
 
 export default function CVPage() {

@@ -10,12 +10,13 @@ export default function HomePage() {
       <div className="home-about">
         <h2>About me</h2>
         <p>
-          I am a physcist working to deliver fault-tolerant photonic quantum
+          I am a physicist working to deliver fault-tolerant photonic quantum
           computers. I've got experience across the entire stack, from 
           high-level SDKs to the hardware.
         </p>
         <p>
-          Outside of work, I do stuff.
+          Outside of work, my interests include mountaineering, skiing and
+          badminton. 
         </p>
       </div>
     </section>
