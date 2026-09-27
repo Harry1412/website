@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import RobotCanvas from './components/RobotCanvas'
 import NavBar from './components/NavBar'
 import HomePage from './pages/HomePage'
-import AboutPage from './pages/AboutPage'
+import CVPage from './pages/CVPage'
 import SurprisePage from './pages/SurprisePage'
 import { ACCENTS } from './components/ColourSlider'
 import SocialLinks from './components/SocialLinks'
@@ -102,7 +102,7 @@ export default function App() {
   }, [])
 
   let page
-  if (route === '/cv') page = <AboutPage />
+  if (route === '/cv') page = <CVPage />
   else if (route === '/surprise')
     page = <SurprisePage solved={solved} onSolve={() => setSolved(true)} />
   else page = <HomePage />

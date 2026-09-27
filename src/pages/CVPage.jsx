@@ -13,7 +13,7 @@ const EXPERIENCES = [
   },
 ]
 
-export default function AboutPage() {
+export default function CVPage() {
   return (
     <section className="panel">
       <h1>CV</h1>
