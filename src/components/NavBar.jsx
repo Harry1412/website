@@ -7,7 +7,14 @@ const ITEMS = [
   { label: "Don't click", route: '/surprise' },
 ]
 
-export default function NavBar({ active, onNavigate, accent, onAccentChange }) {
+export default function NavBar({
+  active,
+  onNavigate,
+  accent,
+  onAccentChange,
+  turbo,
+  onToggleTurbo,
+}) {
   const refs = useRef({})
 
   return (
@@ -26,7 +33,12 @@ export default function NavBar({ active, onNavigate, accent, onAccentChange }) {
         ))}
       </div>
       <div className="nav-tools">
-        <ColourSlider accent={accent} onChange={onAccentChange} />
+        <ColourSlider
+          accent={accent}
+          onChange={onAccentChange}
+          turbo={turbo}
+          onToggleTurbo={onToggleTurbo}
+        />
       </div>
     </nav>
   )

@@ -29,6 +29,7 @@ export default function App() {
   const [route, setRoute] = useState(getRoute)
   const [cover, setCover] = useState(null)
   const [accent, setAccent] = useState(ACCENTS[1])
+  const [turbo, setTurbo] = useState(false)
   const [solved, setSolved] = useState(false)
   const robotRef = useRef(null)
   const busyRef = useRef(false)
@@ -65,26 +66,29 @@ export default function App() {
         y: rect.top + rect.height / 2,
       }
       const full = coverRadius(origin.x, origin.y)
+      const boost = turbo ? 2.5 : 1
+      const expandMs = EXPAND_MS
+      const contractMs = Math.round(CONTRACT_MS / boost)
 
       robotRef.current.walkTo(x, y, () => {
         robotRef.current.reach(() => {
           robotRef.current.unpack()
           setCover({ ...origin, radius: 0, duration: 0 })
           requestAnimationFrame(() => {
-            setCover({ ...origin, radius: full, duration: EXPAND_MS })
+            setCover({ ...origin, radius: full, duration: expandMs })
           })
           schedule(() => {
             window.location.hash = nextRoute
-            setCover({ ...origin, radius: 0, duration: CONTRACT_MS })
-          }, EXPAND_MS + 30)
+            setCover({ ...origin, radius: 0, duration: contractMs })
+          }, expandMs + 30)
           schedule(() => {
             setCover(null)
             busyRef.current = false
-          }, EXPAND_MS + 30 + CONTRACT_MS)
+          }, expandMs + 30 + contractMs)
         })
       })
     },
-    [schedule],
+    [schedule, turbo],
   )
 
   const handleSocial = useCallback((node) => {
@@ -105,7 +109,7 @@ export default function App() {
 
   return (
     <div className="app" style={{ '--accent': accent }}>
-      <RobotCanvas robotRef={robotRef} accent={accent} />
+      <RobotCanvas robotRef={robotRef} accent={accent} turbo={turbo} />
       <main className="page" key={route}>
         {page}
       </main>
@@ -114,6 +118,8 @@ export default function App() {
         onNavigate={navigate}
         accent={accent}
         onAccentChange={setAccent}
+        turbo={turbo}
+        onToggleTurbo={() => setTurbo((t) => !t)}
       />
       {route === '/' && <SocialLinks onActivate={handleSocial} />}
       {cover && (

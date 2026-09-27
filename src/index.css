@@ -82,10 +82,50 @@ body {
   display: flex;
 }
 
-.colour-slider {
+.colour-dots {
   display: flex;
   gap: 12px;
-  padding: 10px 14px;
+}
+
+.colour-bolt {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* same box as a colour dot so it sits on the same pitch as a 4th dot */
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: var(--accent, #ffffff);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+/* enlarge the tap target without affecting the layout pitch */
+.colour-bolt::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+}
+
+.colour-bolt:hover {
+  opacity: 1;
+}
+
+.colour-bolt[aria-pressed='true'] {
+  opacity: 1;
+}
+
+.colour-slider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.4);
