@@ -25,12 +25,12 @@ const EXPERIENCES = [
   },
   {
     title: 'University of St. Andrews • Theoretical Physics (MPhys)',
-      description: `First-Class Honors Degree. Final year project on simulating
+      description: `First-Class Honours Degree. Final year project on simulating
         quantum light pulses in nonlinear optical networks.`,
   },
 ]
 
-const SKILLS_INTRO = `Below are some skills & tools that I have varying degrees
+const SKILLS_INTRO = `A list of skills & tools that I have varying degrees
   of competency in.`
 
 const SKILLS = [
