@@ -2,4 +2,6 @@
 
 # Harry Bromley
 
-A placeholder for a website that I've been testing, created using opencode.
+A personal website, created in collaboration with opencode.
+
+Hosted at [harrybromley.com](https://harrybromley.com).
