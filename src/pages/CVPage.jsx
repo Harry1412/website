@@ -1,16 +1,23 @@
 const EXPERIENCES = [
   {
-    title: 'Your Job Title — Company',
-    description: 'A short description of what you did in this role.',
+    title: 'Aegiq • Various Roles',
+    description: `TODO: Add description (may split into multiple roles.)`,
   },
   {
-    title: 'Another Role — Somewhere',
-    description: 'A short description of this experience too.',
+    title: 'University of St. Andrews • Theoretical Physics (MPhys)',
+      description: `TODO: Add key modules & final year project.`,
   },
-  {
-    title: 'Your Degree — University',
-    description: 'A short description of what you studied.',
-  },
+]
+
+const SKILLS_INTRO = `Below are some skills & tools that I have varying degrees
+  of competency in.`
+
+const SKILLS = [
+  'Python',
+  'Git',
+  'Git{Hub,Lab} & CI/CD',
+  'Rust',
+  'Julia',
 ]
 
 export default function CVPage() {
@@ -18,8 +25,7 @@ export default function CVPage() {
     <section className="panel">
       <h1>CV</h1>
       <p>
-        A little about me… placeholder copy for now. The robot is unpacking
-        somewhere new, so make yourself at home.
+        Short introductory statement.
       </p>
       <div className="timeline">
         {EXPERIENCES.map((exp) => (
@@ -31,6 +37,17 @@ export default function CVPage() {
             </div>
           </div>
         ))}
+      </div>
+      <div className="skills">
+        <h2>Skills | Tools</h2>
+        {SKILLS_INTRO && <p className="skills-intro">{SKILLS_INTRO}</p>}
+        <ul className="skill-list">
+          {SKILLS.map((skill) => (
+            <li key={skill} className="skill-tag">
+              {skill}
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   )

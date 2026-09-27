@@ -232,6 +232,42 @@ body {
   margin-bottom: 16px;
 }
 
+.panel h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.home-about {
+  margin-top: 44px;
+}
+
+.home-about p + p {
+  margin-top: 16px;
+}
+
+.skills {
+  margin-top: 44px;
+}
+
+.skill-list {
+  list-style: disc;
+  padding-left: 22px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px 20px;
+}
+
+.skill-tag {
+  font-size: 17px;
+  line-height: 1.4;
+  opacity: 0.8;
+}
+
+.skills-intro {
+  margin-bottom: 16px;
+}
+
 .panel p {
   font-size: 17px;
   line-height: 1.6;
