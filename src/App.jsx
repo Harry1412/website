@@ -30,6 +30,7 @@ export default function App() {
   const [cover, setCover] = useState(null)
   const [accent, setAccent] = useState(ACCENTS[1])
   const [turbo, setTurbo] = useState(false)
+  const [robotOn, setRobotOn] = useState(true)
   const [solved, setSolved] = useState(false)
   const robotRef = useRef(null)
   const busyRef = useRef(false)
@@ -60,6 +61,10 @@ export default function App() {
 
   const navigate = useCallback(
     (nextRoute, node) => {
+      if (!robotOn) {
+        window.location.hash = nextRoute
+        return
+      }
       if (busyRef.current || !robotRef.current || !node) return
       busyRef.current = true
       const rect = node.getBoundingClientRect()
@@ -92,7 +97,7 @@ export default function App() {
         })
       })
     },
-    [schedule, turbo],
+    [schedule, turbo, robotOn],
   )
 
   const handleSocial = useCallback((node) => {
@@ -108,12 +113,18 @@ export default function App() {
   let page
   if (route === '/cv') page = <CVPage />
   else if (route === '/surprise')
-    page = <SurprisePage solved={solved} onSolve={() => setSolved(true)} />
+    page = (
+      <SurprisePage
+        solved={solved}
+        onSolve={() => setSolved(true)}
+        robotOn={robotOn}
+      />
+    )
   else page = <HomePage />
 
   return (
     <div className="app" style={{ '--accent': accent }}>
-      <RobotCanvas robotRef={robotRef} accent={accent} turbo={turbo} />
+      <RobotCanvas robotRef={robotRef} accent={accent} turbo={turbo} enabled={robotOn} />
       <main className="page" key={route}>
         {page}
       </main>
@@ -124,6 +135,8 @@ export default function App() {
         onAccentChange={setAccent}
         turbo={turbo}
         onToggleTurbo={() => setTurbo((t) => !t)}
+        robotOn={robotOn}
+        onToggleRobot={() => setRobotOn((r) => !r)}
       />
       {route === '/' && <SocialLinks onActivate={handleSocial} />}
       {cover && (

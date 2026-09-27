@@ -86,7 +86,8 @@ body {
   gap: 12px;
 }
 
-.colour-bolt {
+.colour-bolt,
+.robot-toggle {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -100,19 +101,24 @@ body {
   border-radius: 50%;
   color: var(--accent, #ffffff);
   cursor: pointer;
-  opacity: 0.6;
   transition: opacity 0.2s;
 }
 
 /* enlarge the tap target without affecting the layout pitch */
-.colour-bolt::after {
+.colour-bolt::after,
+.robot-toggle::after {
   content: '';
   position: absolute;
   inset: -7px;
   border-radius: 50%;
 }
 
-.colour-bolt:hover {
+.colour-bolt {
+  opacity: 0.6;
+}
+
+.colour-bolt:hover,
+.robot-toggle:hover {
   opacity: 1;
 }
 

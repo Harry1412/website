@@ -4,8 +4,8 @@ export default function HomePage() {
       <h1>Harry Bromley</h1>
       <p>
         Welcome to my website, feel free to explore. The robot will move 
-        around as you click to navigate. Click the lightning bolt in the top 
-        right-corner of the page if you'd like to speed this up.
+        around as you click to navigate. In the top right corner you can also
+        speed up or disable the robot altogether.
       </p>
       <div className="home-about">
         <h2>About me</h2>

@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { Robot } from '../game/robot'
 
-export default function RobotCanvas({ robotRef, accent, turbo }) {
+export default function RobotCanvas({ robotRef, accent, turbo, enabled }) {
   const canvasRef = useRef(null)
   const robot = useRef(null)
+  const enabledRef = useRef(enabled)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -32,12 +33,14 @@ export default function RobotCanvas({ robotRef, accent, turbo }) {
     const loop = (now) => {
       const dt = Math.min((now - last) / 1000, 0.05)
       last = now
-      robot.current.update(dt)
       ctx.save()
       ctx.setTransform(1, 0, 0, 1, 0, 0)
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       ctx.restore()
-      robot.current.draw(ctx)
+      if (enabledRef.current) {
+        robot.current.update(dt)
+        robot.current.draw(ctx)
+      }
       raf = requestAnimationFrame(loop)
     }
     raf = requestAnimationFrame(loop)
@@ -57,7 +60,12 @@ export default function RobotCanvas({ robotRef, accent, turbo }) {
     if (robot.current) robot.current.turbo = turbo
   }, [turbo])
 
+  useEffect(() => {
+    enabledRef.current = enabled
+  }, [enabled])
+
   const handleClick = (e) => {
+    if (!enabled) return
     const rect = canvasRef.current.getBoundingClientRect()
     robot.current.walkTo(e.clientX - rect.left, e.clientY - rect.top)
   }

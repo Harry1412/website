@@ -14,6 +14,8 @@ export default function NavBar({
   onAccentChange,
   turbo,
   onToggleTurbo,
+  robotOn,
+  onToggleRobot,
 }) {
   const refs = useRef({})
 
@@ -38,6 +40,8 @@ export default function NavBar({
           onChange={onAccentChange}
           turbo={turbo}
           onToggleTurbo={onToggleTurbo}
+          robotOn={robotOn}
+          onToggleRobot={onToggleRobot}
         />
       </div>
     </nav>

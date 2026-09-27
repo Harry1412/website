@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 const VALID_ANSWERS = new Set(['robot', 'a robot'])
 
-export default function SurprisePage({ solved, onSolve }) {
+export default function SurprisePage({ solved, onSolve, robotOn }) {
   const [value, setValue] = useState('')
   const [wrong, setWrong] = useState(false)
   const [attempts, setAttempts] = useState(0)
@@ -22,7 +22,11 @@ export default function SurprisePage({ solved, onSolve }) {
     <section className="panel surprise">
       <h1>{solved ? 'Correct' : "Don't answer this riddle"}</h1>
       {solved ? (
-        <p className="riddle-solved">The dance floor is unlocked, have fun!</p>
+        <p className="riddle-solved">
+          {robotOn
+            ? 'The dance floor is unlocked, have fun!'
+            : 'Enable the robot for your reward.'}
+        </p>
       ) : (
         <>
           <p className="riddle">
@@ -47,7 +51,7 @@ export default function SurprisePage({ solved, onSolve }) {
           </form>
           {wrong && <p className="riddle-feedback">Not quite — try again.</p>}
           {attempts >= 3 && (
-            <p className="riddle-hint">Hint: What can you see on this page.</p>
+            <p className="riddle-hint">Hint: What can you see on this page (you may have hidden it).</p>
           )}
         </>
       )}
