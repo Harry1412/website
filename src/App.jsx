@@ -50,6 +50,10 @@ export default function App() {
     }
   }, [route, solved])
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [route])
+
   const schedule = useCallback((fn, ms) => {
     timersRef.current.push(setTimeout(fn, ms))
   }, [])
