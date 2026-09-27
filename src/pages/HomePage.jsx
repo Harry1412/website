@@ -3,8 +3,8 @@ export default function HomePage() {
     <section className="panel">
       <h1>Harry Bromley</h1>
       <p>
-        Welcome to my website, feel free to explore. The robot will move 
-        around as you click to navigate. In the top right corner you can also
+        Hello, welcome to my website, feel free to explore. The robot will move 
+        around as you click to navigate. In the top right corner, you can also
         speed up or disable the robot altogether.
       </p>
       <div className="home-about">

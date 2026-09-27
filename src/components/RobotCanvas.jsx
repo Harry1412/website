@@ -82,13 +82,14 @@ export default function RobotCanvas({ robotRef, accent, turbo, enabled }) {
   }
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="robot-canvas"
-      onClick={handleClick}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
-      aria-hidden="true"
-    />
+    <>
+      <div
+        className="robot-catcher"
+        onClick={handleClick}
+        onMouseMove={handleMove}
+        onMouseLeave={handleLeave}
+      />
+      <canvas ref={canvasRef} className="robot-canvas" aria-hidden="true" />
+    </>
   )
 }

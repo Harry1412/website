@@ -20,11 +20,23 @@ body {
   color: var(--accent, #ffffff);
 }
 
+/* input layer: sits below the nav so nav buttons stay clickable, and receives
+   clicks on the page content (which is pointer-events: none) to move the robot */
+.robot-catcher {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  cursor: crosshair;
+}
+
+/* the robot is drawn permanently in front of the nav bar so its reach is
+   always visible over it. it never intercepts clicks (pointer-events: none) —
+   all input goes through .robot-catcher, so nav buttons stay clickable */
 .robot-canvas {
   position: fixed;
   inset: 0;
-  z-index: 1;
-  cursor: crosshair;
+  z-index: 4;
+  pointer-events: none;
 }
 
 .nav {

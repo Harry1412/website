@@ -99,7 +99,6 @@ export default function App() {
     },
     [schedule, turbo, robotOn],
   )
-
   const handleSocial = useCallback((node) => {
     if (!robotRef.current || !node) return
     const rect = node.getBoundingClientRect()
