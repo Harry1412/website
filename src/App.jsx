@@ -35,7 +35,6 @@ export default function App() {
   const robotRef = useRef(null)
   const busyRef = useRef(false)
   const timersRef = useRef([])
-  const landRef = useRef(null)
 
   useEffect(() => {
     const onHashChange = () => setRoute(getRoute())
@@ -54,19 +53,6 @@ export default function App() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    const r = robotRef.current
-    if (!r) return
-    if (landRef.current) {
-      // land the robot under the same button on the new page, so it reads as
-      // "it never moved". the nav is fixed, so the button's viewport position
-      // is also its document position now that the scroll is back at 0
-      r.x = landRef.current.x
-      r.y = landRef.current.y
-      landRef.current = null
-    } else if (r.isOffScreen()) {
-      r.x = window.innerWidth / 2
-      r.y = window.innerHeight * 0.66
-    }
   }, [route])
 
   const schedule = useCallback((fn, ms) => {
@@ -83,12 +69,7 @@ export default function App() {
       busyRef.current = true
       const rect = node.getBoundingClientRect()
       const x = rect.left + rect.width / 2
-      // nav is fixed, so its viewport position must be converted to document
-      // coordinates (the robot lives in document space)
-      const y = window.scrollY + Math.max(rect.bottom + 80, 130)
-      // where to place the robot on the new page (scroll will be 0 there, so
-      // the button's viewport position is its document position)
-      landRef.current = { x, y: Math.max(rect.bottom + 80, 130) }
+      const y = Math.max(rect.bottom + 80, 130)
       const origin = {
         x: rect.left + rect.width / 2,
         y: rect.top + rect.height / 2,
@@ -97,13 +78,6 @@ export default function App() {
       const boost = turbo ? 2.5 : 1
       const expandMs = EXPAND_MS
       const contractMs = Math.round(CONTRACT_MS / boost)
-
-      // if the robot has scrolled out of view, bring it straight to the
-      // interaction spot instead of making it walk the whole page
-      if (robotRef.current.isOffScreen()) {
-        robotRef.current.x = x
-        robotRef.current.y = y
-      }
 
       robotRef.current.walkTo(x, y, () => {
         robotRef.current.reach(() => {
@@ -129,12 +103,7 @@ export default function App() {
     if (!robotRef.current || !node) return
     const rect = node.getBoundingClientRect()
     const x = rect.left - 40
-    // social links are fixed, so convert viewport position to document coords
-    const y = window.scrollY + rect.top + rect.height / 2
-    if (robotRef.current.isOffScreen()) {
-      robotRef.current.x = x
-      robotRef.current.y = y
-    }
+    const y = rect.top + rect.height / 2
     robotRef.current.walkTo(x, y, () => {
       robotRef.current.doWave()
     })

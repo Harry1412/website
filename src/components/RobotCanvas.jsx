@@ -11,7 +11,6 @@ export default function RobotCanvas({ robotRef, accent, turbo, enabled }) {
     const ctx = canvas.getContext('2d')
     let raf = 0
     let last = performance.now()
-    let viewH = window.innerHeight
     let needsClear = true
     let lastW = 0
     let lastH = 0
@@ -20,16 +19,15 @@ export default function RobotCanvas({ robotRef, accent, turbo, enabled }) {
     robot.current = new Robot()
     robotRef.current = robot.current
 
-    // viewport-sized canvas; the robot lives in document coords and is drawn
-    // offset by the scroll inside Robot.draw(). we only reallocate the backing
-    // store when the size actually changes, since resizing a canvas is costly
-    // and mobile safari fires resize as its toolbar collapses/expands.
+    // viewport-sized canvas; the robot lives in viewport coordinates. we only
+    // reallocate the backing store when the size actually changes, since
+    // resizing a canvas is costly and mobile safari fires resize as its
+    // toolbar collapses/expands.
     const sync = () => {
       const w = window.innerWidth
       const h = window.innerHeight
       // cap the backing resolution lower on phones to cut per-frame fill cost
       const dpr = Math.min(window.devicePixelRatio || 1, w < 768 ? 1.5 : 2)
-      viewH = h
       if (w === lastW && h === lastH && dpr === lastDpr) return
       lastW = w
       lastH = h
@@ -39,7 +37,9 @@ export default function RobotCanvas({ robotRef, accent, turbo, enabled }) {
       canvas.style.width = `${w}px`
       canvas.style.height = `${h}px`
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      robot.current.resetFor({ w, h, vh: h })
+      const nav = document.querySelector('.nav')
+      const navBottom = nav ? nav.getBoundingClientRect().bottom : 56
+      robot.current.resetFor({ w, h, vh: h, navBottom })
     }
 
     const clear = () => {
@@ -55,23 +55,10 @@ export default function RobotCanvas({ robotRef, accent, turbo, enabled }) {
     const loop = (now) => {
       const dt = Math.min((now - last) / 1000, 0.05)
       last = now
-      const r = robot.current
-      let visible = enabledRef.current && r.ready
-      if (visible) {
-        // skip all work when the robot (and floor) are scrolled out of view
-        const sy = window.scrollY || 0
-        const ry = r.y - sy
-        visible = ry > -120 && ry < viewH + 20
-        if (!visible && r.showFloor) {
-          const f = r.floorRect()
-          const fy = f.top - sy
-          visible = fy > -220 && fy < viewH + 20
-        }
-      }
-      if (visible) {
+      if (enabledRef.current && robot.current.ready) {
         clear()
-        r.update(dt)
-        r.draw(ctx)
+        robot.current.update(dt)
+        robot.current.draw(ctx)
         needsClear = true
       } else if (needsClear) {
         clear()
@@ -102,21 +89,12 @@ export default function RobotCanvas({ robotRef, accent, turbo, enabled }) {
 
   const handleClick = (e) => {
     if (!enabled) return
-    // canvas is viewport-fixed, so convert the viewport point to document coords
-    const tx = e.clientX
-    const ty = e.clientY + (window.scrollY || 0)
-    // if the robot is off-screen, snap it to the click rather than making it
-    // walk the whole (possibly long) distance
-    if (robot.current.isOffScreen()) {
-      robot.current.x = tx
-      robot.current.y = ty
-    }
-    robot.current.walkTo(tx, ty)
+    robot.current.walkTo(e.clientX, e.clientY)
   }
 
   const handleMove = (e) => {
     robot.current.mouseX = e.clientX
-    robot.current.mouseY = e.clientY + (window.scrollY || 0)
+    robot.current.mouseY = e.clientY
   }
 
   const handleLeave = () => {
