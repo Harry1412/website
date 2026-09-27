@@ -152,6 +152,28 @@ body {
   }
 }
 
+.socials {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 3;
+  display: flex;
+  gap: 18px;
+  pointer-events: auto;
+}
+
+.social-link {
+  display: inline-flex;
+  color: var(--accent, #ffffff);
+  opacity: 0.65;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.social-link:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
 .cover {
   position: fixed;
   inset: 0;

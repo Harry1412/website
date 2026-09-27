@@ -4,6 +4,7 @@ const UNPACK_HOLD = 0.15
 const UNPACK_LOWER = 0.25
 const UNPACK_TOTAL = UNPACK_RAISE + UNPACK_HOLD + UNPACK_LOWER
 const REACH_DURATION = 0.55
+const WAVE_DURATION = 0.9
 const EASE = (t) => t * t * (3 - 2 * t)
 const FLOOR_CELLS = 3
 const FLOOR_GAP = 4
@@ -51,6 +52,8 @@ export class Robot {
     this.mouseX = null
     this.mouseY = null
     this.wave = 0
+    this.waveTime = 0
+    this.onWaveDone = null
     this.showFloor = false
     this.dance = 0
     this.accent = '#ffffff'
@@ -82,6 +85,12 @@ export class Robot {
     this.state = 'reaching'
     this.unpackTime = 0
     this.onReachDone = onDone || null
+  }
+
+  doWave(onDone) {
+    this.state = 'waving'
+    this.waveTime = 0
+    this.onWaveDone = onDone || null
   }
 
   update(dt) {
@@ -119,9 +128,19 @@ export class Robot {
       if (this.unpackTime >= UNPACK_TOTAL) {
         this.state = 'idle'
       }
+    } else if (this.state === 'waving') {
+      this.waveTime += dt
+      if (this.waveTime >= WAVE_DURATION) {
+        this.state = 'idle'
+        const cb = this.onWaveDone
+        this.onWaveDone = null
+        if (cb) cb()
+      }
     }
 
-    if (this.state === 'idle') {
+    if (this.state === 'waving') {
+      this.wave = Math.min(1, this.waveTime / 0.12)
+    } else if (this.state === 'idle') {
       const hovering =
         this.mouseX !== null &&
         this.mouseX >= this.x - 34 &&

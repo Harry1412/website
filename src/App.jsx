@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
 import SurprisePage from './pages/SurprisePage'
 import { ACCENTS } from './components/ColourSlider'
+import SocialLinks from './components/SocialLinks'
 
 const EXPAND_MS = 340
 const CONTRACT_MS = 420
@@ -86,8 +87,18 @@ export default function App() {
     [schedule],
   )
 
+  const handleSocial = useCallback((node) => {
+    if (!robotRef.current || !node) return
+    const rect = node.getBoundingClientRect()
+    const x = rect.left - 40
+    const y = rect.top + rect.height / 2
+    robotRef.current.walkTo(x, y, () => {
+      robotRef.current.doWave()
+    })
+  }, [])
+
   let page
-  if (route === '/about') page = <AboutPage />
+  if (route === '/cv') page = <AboutPage />
   else if (route === '/surprise')
     page = <SurprisePage solved={solved} onSolve={() => setSolved(true)} />
   else page = <HomePage />
@@ -104,6 +115,7 @@ export default function App() {
         accent={accent}
         onAccentChange={setAccent}
       />
+      {route === '/' && <SocialLinks onActivate={handleSocial} />}
       {cover && (
         <div
           className="cover"

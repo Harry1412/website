@@ -3,7 +3,7 @@ import ColourSlider from './ColourSlider'
 
 const ITEMS = [
   { label: 'Home', route: '/' },
-  { label: 'About', route: '/about' },
+  { label: 'CV', route: '/cv' },
   { label: "Don't click", route: '/surprise' },
 ]
 
