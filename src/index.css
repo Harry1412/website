@@ -25,11 +25,12 @@ body {
 }
 
 .app {
+  min-height: 100dvh;
   color: var(--accent, #ffffff);
 }
 
-/* input layer: sits below the nav so nav buttons stay clickable, and receives
-   clicks on the page content (which is pointer-events: none) to move the robot */
+/* input layer: a viewport-sized fixed layer (below the nav) that receives clicks
+   anywhere on screen and moves the robot to that point in the document */
 .robot-catcher {
   position: fixed;
   top: 0;
@@ -41,9 +42,9 @@ body {
   cursor: crosshair;
 }
 
-/* the robot is drawn permanently in front of the nav bar so its reach is
-   always visible over it. it never intercepts clicks (pointer-events: none) —
-   all input goes through .robot-catcher, so nav buttons stay clickable */
+/* viewport-sized canvas; the robot is stored in document coordinates and drawn
+   offset by the scroll, so it scrolls with the content while staying cheap to
+   render. pointer-events: none — all input goes through .robot-catcher */
 .robot-canvas {
   position: fixed;
   top: 0;

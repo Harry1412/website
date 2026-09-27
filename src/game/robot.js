@@ -37,6 +37,7 @@ export class Robot {
     this.y = 0
     this.w = 0
     this.h = 0
+    this.vh = 0
     this.ready = false
 
     this.speed = 360
@@ -65,11 +66,18 @@ export class Robot {
     if (this.w === size.w && this.h === size.h && this.ready) return
     this.w = size.w
     this.h = size.h
+    this.vh = size.vh || size.h
     if (!this.ready) {
+      // start in the currently visible area (document coords)
       this.x = this.w / 2
-      this.y = this.h * 0.66
+      this.y = (window.scrollY || 0) + this.vh * 0.66
       this.ready = true
     }
+  }
+
+  isOffScreen() {
+    const top = window.scrollY || 0
+    return this.y < top - 20 || this.y > top + window.innerHeight + 20
   }
 
   walkTo(x, y, onArrive) {
@@ -195,10 +203,13 @@ export class Robot {
     const swing = walking ? Math.sin(this.walkTime * 13) : 0
     const stepLift = walking ? Math.abs(Math.sin(this.walkTime * 13)) * 6 : 0
 
-    if (this.showFloor) this.drawFloor(ctx)
+    // robot + floor are in document coords; shift by scroll to draw in the
+    // fixed viewport canvas so they scroll with the content
+    const sy = window.scrollY || 0
+    if (this.showFloor) this.drawFloor(ctx, sy)
 
     ctx.save()
-    ctx.translate(this.x, this.y + shake)
+    ctx.translate(this.x, this.y - sy + shake)
 
     this.drawActor(ctx, {
       bob,
@@ -220,14 +231,14 @@ export class Robot {
     return { left, top, right: left + s, bottom: top + s }
   }
 
-  drawFloor(ctx) {
+  drawFloor(ctx, sy) {
     const f = this.floorRect()
     const size = f.right - f.left
     const cell = (size - FLOOR_GAP * (FLOOR_CELLS - 1)) / FLOOR_CELLS
     for (let row = 0; row < FLOOR_CELLS; row++) {
       for (let col = 0; col < FLOOR_CELLS; col++) {
         const x = f.left + col * (cell + FLOOR_GAP)
-        const y = f.top + row * (cell + FLOOR_GAP)
+        const y = f.top + row * (cell + FLOOR_GAP) - sy
         ctx.fillStyle = FLOOR_COLORS[row * FLOOR_CELLS + col]
         ctx.beginPath()
         ctx.roundRect(x, y, cell, cell, 6)

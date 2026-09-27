@@ -15,7 +15,9 @@ export default function RobotCanvas({ robotRef, accent, turbo, enabled }) {
     robot.current = new Robot()
     robotRef.current = robot.current
 
-    const resize = () => {
+    // viewport-sized canvas; the robot lives in document coords and is drawn
+    // offset by the scroll inside Robot.draw()
+    const sync = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
       const w = window.innerWidth
       const h = window.innerHeight
@@ -24,11 +26,11 @@ export default function RobotCanvas({ robotRef, accent, turbo, enabled }) {
       canvas.style.width = `${w}px`
       canvas.style.height = `${h}px`
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      robot.current.resetFor({ w, h })
+      robot.current.resetFor({ w, h, vh: h })
     }
 
-    resize()
-    window.addEventListener('resize', resize)
+    sync()
+    window.addEventListener('resize', sync)
 
     const loop = (now) => {
       const dt = Math.min((now - last) / 1000, 0.05)
@@ -47,7 +49,7 @@ export default function RobotCanvas({ robotRef, accent, turbo, enabled }) {
 
     return () => {
       cancelAnimationFrame(raf)
-      window.removeEventListener('resize', resize)
+      window.removeEventListener('resize', sync)
       robotRef.current = null
     }
   }, [robotRef])
@@ -66,14 +68,21 @@ export default function RobotCanvas({ robotRef, accent, turbo, enabled }) {
 
   const handleClick = (e) => {
     if (!enabled) return
-    const rect = canvasRef.current.getBoundingClientRect()
-    robot.current.walkTo(e.clientX - rect.left, e.clientY - rect.top)
+    // canvas is viewport-fixed, so convert the viewport point to document coords
+    const tx = e.clientX
+    const ty = e.clientY + (window.scrollY || 0)
+    // if the robot is off-screen, snap it to the click rather than making it
+    // walk the whole (possibly long) distance
+    if (robot.current.isOffScreen()) {
+      robot.current.x = tx
+      robot.current.y = ty
+    }
+    robot.current.walkTo(tx, ty)
   }
 
   const handleMove = (e) => {
-    const rect = canvasRef.current.getBoundingClientRect()
-    robot.current.mouseX = e.clientX - rect.left
-    robot.current.mouseY = e.clientY - rect.top
+    robot.current.mouseX = e.clientX
+    robot.current.mouseY = e.clientY + (window.scrollY || 0)
   }
 
   const handleLeave = () => {
