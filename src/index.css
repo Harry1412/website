@@ -37,6 +37,19 @@ body {
   align-items: center;
   gap: 20px;
   padding: 16px 24px;
+  background: #000;
+}
+
+/* fade content out as it passes under the bar */
+.nav::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(#000, transparent);
+  pointer-events: none;
 }
 
 .brand {
