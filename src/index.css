@@ -232,6 +232,12 @@ body {
   margin-bottom: 16px;
 }
 
+.panel a {
+  color: var(--accent, #ffffff);
+  text-decoration: underline;
+  pointer-events: auto;
+}
+
 .panel h2 {
   font-size: 22px;
   font-weight: 600;

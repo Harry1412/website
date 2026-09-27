@@ -1,10 +1,21 @@
 const EXPERIENCES = [
   {
     title: 'Aegiq • Quantum Software Engineer',
-    description: `Architected Aegiq's software stack for its first generation
-      quantum computing system. Built various aspects including the Lightworks
-      SDK, and a custom compiler. Implemented code for tomography, and improved
-      system performance through AI-assisted calibration.`,
+    description: (
+      <>
+        Architected Aegiq's software stack for its first generation quantum
+        computing system. Built various aspects including the{' '}
+        <a
+          href="https://github.com/Aegiq/lightworks"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Lightworks
+        </a>{' '}
+        SDK, and a custom compiler. Implemented code for tomography, and
+        improved system performance through AI-assisted calibration.
+      </>
+    ),
   },
   {
     title: 'Aegiq • Various Roles',
@@ -38,7 +49,7 @@ export default function CVPage() {
     <section className="panel">
       <h1>CV</h1>
       <p>
-        Short introductory statement.
+        A snapshot of my professional background.
       </p>
       <div className="timeline">
         {EXPERIENCES.map((exp) => (
