@@ -1,6 +1,6 @@
 const EXPERIENCES = [
   {
-    title: 'Aegiq • Quantum Software Engineer',
+    title: '2024 • Aegiq • Quantum Software Engineer',
     description: (
       <>
         Architected Aegiq's software stack for its first generation quantum
@@ -18,20 +18,20 @@ const EXPERIENCES = [
     ),
   },
   {
-    title: 'Aegiq • Various Roles',
+    title: '2021 • Aegiq • Various Roles',
     description: `Built a component library for Aegiq's single photon sources,
       later expanded responsibility to include aspects of quantum computing 
       theory and near term application development.`,
   },
   {
-    title: 'University of St. Andrews • Theoretical Physics (MPhys)',
+    title: '2017 • University of St. Andrews • Theoretical Physics (MPhys)',
       description: `First-Class Honours Degree. Final year project on simulating
         quantum light pulses in nonlinear optical networks.`,
   },
 ]
 
-const SKILLS_INTRO = `A list of skills & tools that I have varying degrees
-  of competency in.`
+const SKILLS_INTRO = `This is a list of skills & tools that I have varying 
+  degrees of competency in.`
 
 const SKILLS = [
   'Python',
@@ -50,7 +50,8 @@ export default function CVPage() {
     <section className="panel">
       <h1>CV</h1>
       <p>
-        A snapshot of my professional background.
+        Find a brief snapshot of my professional background below. Dates quoted
+        are the start dates for a particular chapter.
       </p>
       <div className="timeline">
         {EXPERIENCES.map((exp) => (
