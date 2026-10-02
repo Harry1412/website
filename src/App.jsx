@@ -3,6 +3,7 @@ import RobotCanvas from './components/RobotCanvas'
 import NavBar from './components/NavBar'
 import HomePage from './pages/HomePage'
 import CVPage from './pages/CVPage'
+import GalleryPage from './pages/GalleryPage'
 import SurprisePage from './pages/SurprisePage'
 import { ACCENTS } from './components/ColourSlider'
 import SocialLinks from './components/SocialLinks'
@@ -111,6 +112,7 @@ export default function App() {
 
   let page
   if (route === '/cv') page = <CVPage />
+  else if (route === '/gallery') page = <GalleryPage />
   else if (route === '/surprise')
     page = (
       <SurprisePage

@@ -4,6 +4,7 @@ import ColourSlider from './ColourSlider'
 const ITEMS = [
   { label: 'Home', route: '/' },
   { label: 'CV', route: '/cv' },
+  { label: 'Gallery', route: '/gallery' },
   { label: "Don't click", route: '/surprise' },
 ]
 
