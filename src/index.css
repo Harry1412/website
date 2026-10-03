@@ -127,7 +127,6 @@ body {
   gap: 12px;
 }
 
-.colour-bolt,
 .robot-toggle {
   position: relative;
   display: inline-flex;
@@ -142,11 +141,11 @@ body {
   border-radius: 50%;
   color: var(--accent, #ffffff);
   cursor: pointer;
+  opacity: 0.75;
   transition: opacity 0.2s;
 }
 
 /* enlarge the tap target without affecting the layout pitch */
-.colour-bolt::after,
 .robot-toggle::after {
   content: '';
   position: absolute;
@@ -154,16 +153,8 @@ body {
   border-radius: 50%;
 }
 
-.colour-bolt {
-  opacity: 0.6;
-}
-
-.colour-bolt:hover,
-.robot-toggle:hover {
-  opacity: 1;
-}
-
-.colour-bolt[aria-pressed='true'] {
+.robot-toggle:hover,
+.robot-toggle[aria-pressed='true'] {
   opacity: 1;
 }
 
@@ -273,7 +264,7 @@ body {
 }
 
 .panel {
-  max-width: 560px;
+  max-width: 1000px;
 }
 
 .panel h1 {

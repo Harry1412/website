@@ -30,8 +30,7 @@ export default function App() {
   const [route, setRoute] = useState(getRoute)
   const [cover, setCover] = useState(null)
   const [accent, setAccent] = useState(ACCENTS[1])
-  const [turbo, setTurbo] = useState(false)
-  const [robotOn, setRobotOn] = useState(true)
+  const [robotOn, setRobotOn] = useState(false)
   const [solved, setSolved] = useState(false)
   const robotRef = useRef(null)
   const busyRef = useRef(false)
@@ -76,9 +75,8 @@ export default function App() {
         y: rect.top + rect.height / 2,
       }
       const full = coverRadius(origin.x, origin.y)
-      const boost = turbo ? 2.5 : 1
       const expandMs = EXPAND_MS
-      const contractMs = Math.round(CONTRACT_MS / boost)
+      const contractMs = CONTRACT_MS
 
       robotRef.current.walkTo(x, y, () => {
         robotRef.current.reach(() => {
@@ -98,7 +96,7 @@ export default function App() {
         })
       })
     },
-    [schedule, turbo, robotOn],
+    [schedule, robotOn],
   )
   const handleSocial = useCallback((node) => {
     if (!robotRef.current || !node) return
@@ -125,7 +123,7 @@ export default function App() {
 
   return (
     <div className="app" style={{ '--accent': accent }}>
-      <RobotCanvas robotRef={robotRef} accent={accent} turbo={turbo} enabled={robotOn} />
+      <RobotCanvas robotRef={robotRef} accent={accent} enabled={robotOn} />
       <main className="page" key={route}>
         {page}
       </main>
@@ -134,8 +132,6 @@ export default function App() {
         onNavigate={navigate}
         accent={accent}
         onAccentChange={setAccent}
-        turbo={turbo}
-        onToggleTurbo={() => setTurbo((t) => !t)}
         robotOn={robotOn}
         onToggleRobot={() => setRobotOn((r) => !r)}
       />

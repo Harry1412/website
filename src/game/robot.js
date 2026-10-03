@@ -5,7 +5,6 @@ const UNPACK_LOWER = 0.25
 const UNPACK_TOTAL = UNPACK_RAISE + UNPACK_HOLD + UNPACK_LOWER
 const REACH_DURATION = 0.55
 const WAVE_DURATION = 0.9
-const UNPACK_BOOST = 2.5
 const EASE = (t) => t * t * (3 - 2 * t)
 const FLOOR_CELLS = 3
 const FLOOR_GAP = 4
@@ -41,7 +40,6 @@ export class Robot {
     this.ready = false
 
     this.speed = 360
-    this.turbo = false
     this.state = 'idle'
     this.facing = 1
     this.clock = 0
@@ -98,10 +96,6 @@ export class Robot {
     this.onWaveDone = onDone || null
   }
 
-  actionBoost() {
-    return this.turbo ? UNPACK_BOOST : 1
-  }
-
   update(dt) {
     this.clock += dt
 
@@ -109,7 +103,7 @@ export class Robot {
       const dx = this.target.x - this.x
       const dy = this.target.y - this.y
       const dist = Math.hypot(dx, dy)
-      const step = (this.turbo ? this.speed * 3 : this.speed) * dt
+      const step = this.speed * dt
       if (dist <= step) {
         this.x = this.target.x
         this.y = this.target.y
@@ -125,7 +119,7 @@ export class Robot {
         if (Math.abs(dx) > 1) this.facing = dx >= 0 ? 1 : -1
       }
     } else if (this.state === 'reaching') {
-      this.unpackTime += dt * this.actionBoost()
+      this.unpackTime += dt
       if (this.unpackTime >= REACH_DURATION) {
         this.state = 'idle'
         const cb = this.onReachDone
@@ -133,7 +127,7 @@ export class Robot {
         if (cb) cb()
       }
     } else if (this.state === 'unpacking') {
-      this.unpackTime += dt * this.actionBoost()
+      this.unpackTime += dt
       if (this.unpackTime >= UNPACK_TOTAL) {
         this.state = 'idle'
       }

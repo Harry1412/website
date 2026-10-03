@@ -13,8 +13,6 @@ export default function NavBar({
   onNavigate,
   accent,
   onAccentChange,
-  turbo,
-  onToggleTurbo,
   robotOn,
   onToggleRobot,
 }) {
@@ -39,8 +37,6 @@ export default function NavBar({
         <ColourSlider
           accent={accent}
           onChange={onAccentChange}
-          turbo={turbo}
-          onToggleTurbo={onToggleTurbo}
           robotOn={robotOn}
           onToggleRobot={onToggleRobot}
         />

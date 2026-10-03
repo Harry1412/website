@@ -1,7 +1,5 @@
 export const ACCENTS = ['#ffffff', '#dadada', '#a0a0a0']
 
-const BOLT = 'M13 2 3 14h7l-1 8 11-12h-7l1-8z'
-
 function RobotFace({ filled }) {
   return (
     <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
@@ -53,8 +51,6 @@ function RobotFace({ filled }) {
 export default function ColourSlider({
   accent,
   onChange,
-  turbo,
-  onToggleTurbo,
   robotOn,
   onToggleRobot,
 }) {
@@ -74,25 +70,6 @@ export default function ColourSlider({
           />
         ))}
       </div>
-      <button
-        type="button"
-        className="colour-bolt"
-        onClick={onToggleTurbo}
-        aria-pressed={turbo}
-        aria-label="Turbo speed"
-        title="Turbo speed"
-      >
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-          <path
-            d={BOLT}
-            fill={turbo ? 'currentColor' : 'none'}
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinejoin="round"
-            strokeLinecap="round"
-          />
-        </svg>
-      </button>
       <button
         type="button"
         className="robot-toggle"

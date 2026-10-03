@@ -25,7 +25,7 @@ export default function SurprisePage({ solved, onSolve, robotOn }) {
         <p className="riddle-solved">
           {robotOn
             ? 'The dance floor is unlocked, have fun!'
-            : 'Enable the robot for your reward.'}
+            : 'Enable the robot (in the top right) for your reward.'}
         </p>
       ) : (
         <>
@@ -51,7 +51,7 @@ export default function SurprisePage({ solved, onSolve, robotOn }) {
           </form>
           {wrong && <p className="riddle-feedback">Not quite — try again.</p>}
           {attempts >= 3 && (
-            <p className="riddle-hint">Hint: What can you see on this page (you may have hidden it).</p>
+            <p className="riddle-hint">Hint: The answer can be clicked, and is written somewhere on this site.</p>
           )}
         </>
       )}
