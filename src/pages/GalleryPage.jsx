@@ -14,7 +14,7 @@ export default function GalleryPage() {
   return (
     <section className="gallery">
       <h1>Gallery</h1>
-      <p>A selection of photos from my time on this earth.</p>
+      <p>A selection of images from my time on this earth.</p>
       <div className="gallery-grid">
         {GALLERY.map((item) => (
           <figure className="gallery-item" key={item.src}>

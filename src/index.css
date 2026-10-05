@@ -352,6 +352,44 @@ body {
   margin-top: 16px;
 }
 
+.home-recs {
+  margin-top: 44px;
+}
+
+.home-recs ul {
+  list-style: none;
+}
+
+.home-recs p {
+  font-size: 17px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  opacity: 0.72;
+}
+
+.home-recs li {
+  position: relative;
+  font-size: 17px;
+  line-height: 1.6;
+  padding-left: 20px;
+}
+
+.home-recs li + li {
+  margin-top: 6px;
+}
+
+/* small dot marker, matching the accent colour like the rest of the site */
+.home-recs li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent, #ffffff);
+}
+
 .skills {
   margin-top: 44px;
 }
