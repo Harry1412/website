@@ -1,10 +1,32 @@
 const RECOMMENDATIONS = [
-  'Mr. Robot • Dark hacker show. 10/10, my favourite piece of TV.',
-  'Community • A loving parody of sitcom tropes with endlessly inventive episodes.',
-  'Foundation (TV + books) • Fascinating science fiction universe. The show looks great and bring a unique spin to the story.',
-  'Freeride World Tour • Skiing down cliffs, usually with a few backflips, very fun to watch.',
-  'Cyberpunk 2077 • Visually excellent with a compelling story and world. Even better with Phantom Liberty.',
-  'Kerbal Space Program • Taught me everyting I know about orbital mechanics.',
+  {
+    name: 'Mr. Robot',
+    comment: 'Dark hacker show. 10/10, my favourite piece of TV.',
+  },
+  {
+    name: 'Community',
+    comment:
+      'Incredibly meta sitcom, with a huge range of funny and inventive episodes.',
+  },
+  {
+    name: 'Foundation (TV + books)',
+    comment:
+      'Fascinating science fiction universe. The show looks great and brings a unique spin to the story.',
+  },
+  {
+    name: 'Freeride World Tour',
+    comment:
+      'Skiing down cliffs, usually with a few backflips, very fun to watch.',
+  },
+  {
+    name: 'Cyberpunk 2077',
+    comment:
+      'Visually excellent with a compelling story and world. Even better with Phantom Liberty.',
+  },
+  {
+    name: 'Kerbal Space Program',
+    comment: 'Taught me everything I know about orbital mechanics.',
+  },
 ]
 
 export default function HomePage() {
@@ -35,8 +57,12 @@ export default function HomePage() {
           Some things I've enjoyed.
         </p>
         <ul>
-          {RECOMMENDATIONS.map((pick) => (
-            <li key={pick}>{pick}</li>
+          {RECOMMENDATIONS.map(({ name, comment }) => (
+            <li key={name}>
+              <span className="rec-name">{name}</span>
+              <span className="rec-sep" aria-hidden="true" />
+              <span className="rec-comment">{comment}</span>
+            </li>
           ))}
         </ul>
       </div>

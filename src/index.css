@@ -361,10 +361,7 @@ body {
 }
 
 .home-recs p {
-  font-size: 17px;
-  line-height: 1.6;
   margin-bottom: 16px;
-  opacity: 0.72;
 }
 
 .home-recs li {
@@ -372,13 +369,34 @@ body {
   font-size: 17px;
   line-height: 1.6;
   padding-left: 20px;
+  opacity: 0.8;
 }
 
 .home-recs li + li {
   margin-top: 6px;
 }
 
-/* small dot marker, matching the accent colour like the rest of the site */
+.rec-name {
+  font-weight: 600;
+}
+
+/* small dot separator, matching the main bullet marker */
+.rec-sep {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 0 10px;
+  border-radius: 50%;
+  background: currentColor;
+  vertical-align: middle;
+}
+
+.rec-comment {
+  font-style: italic;
+  opacity: 0.72;
+}
+
+/* small dot marker, inheriting the item's colour like the rest of the site's bullets */
 .home-recs li::before {
   content: '';
   position: absolute;
@@ -387,7 +405,7 @@ body {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--accent, #ffffff);
+  background: currentColor;
 }
 
 .skills {
