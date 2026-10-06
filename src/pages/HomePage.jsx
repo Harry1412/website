@@ -1,3 +1,34 @@
+function Smiley() {
+  return (
+    <svg
+      className="smiley"
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      role="img"
+      aria-label="smiley"
+    >
+      <circle
+        cx="12"
+        cy="12"
+        r="9"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <circle cx="9" cy="10" r="1.3" fill="currentColor" />
+      <circle cx="15" cy="10" r="1.3" fill="currentColor" />
+      <path
+        d="M8 14.5c1 1.2 2.3 1.8 4 1.8s3-0.6 4-1.8"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
 const RECOMMENDATIONS = [
   {
     name: 'Mr. Robot',
@@ -42,8 +73,8 @@ export default function HomePage() {
         <p>
           I'm a physicist working on fault-tolerant photonic quantum
           computers. My focus is primarily on the software side of quantum,
-          but I've also had exposure to the hardware itself ( though I like
-          to avoid the lab as much as possible :) ).
+          but I've also had exposure to the hardware itself (though I like
+          to avoid the lab as much as possible <Smiley />).
         </p>
         <p>
           Outside work, I have a general appreciation for the outdoors, being a

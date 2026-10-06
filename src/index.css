@@ -265,6 +265,7 @@ body {
 
 .panel {
   max-width: 1000px;
+  margin-inline: auto;
 }
 
 .panel h1 {
@@ -275,6 +276,7 @@ body {
 
 .gallery {
   max-width: 1400px;
+  margin-inline: auto;
 }
 
 .gallery h1 {
@@ -381,6 +383,12 @@ body {
 }
 
 /* small dot separator, matching the main bullet marker */
+.smiley {
+  display: inline-block;
+  vertical-align: -4px;
+  color: var(--accent, #ffffff);
+}
+
 .rec-sep {
   display: inline-block;
   width: 6px;
