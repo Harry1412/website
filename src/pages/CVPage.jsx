@@ -20,7 +20,7 @@ const EXPERIENCES = [
   {
     title: '2021 • Aegiq • Various Roles',
     description: `Built a component library for Aegiq's single photon sources,
-      later expanded responsibility to include aspects of quantum computing 
+      later expanded responsibilities to include aspects of quantum computing 
       theory and near term application development.`,
   },
   {
