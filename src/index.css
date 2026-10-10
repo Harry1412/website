@@ -382,6 +382,21 @@ body {
   font-weight: 600;
 }
 
+.lost-list {
+  margin-top: 40px;
+}
+
+.lost-link {
+  color: var(--accent, #ffffff);
+  text-decoration: underline;
+  pointer-events: auto;
+}
+
+.lost-link:hover {
+  text-decoration: none;
+  opacity: 0.75;
+}
+
 /* small dot separator, matching the main bullet marker */
 .smiley {
   display: inline-block;

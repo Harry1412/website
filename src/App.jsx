@@ -4,6 +4,7 @@ import NavBar from './components/NavBar'
 import HomePage from './pages/HomePage'
 import CVPage from './pages/CVPage'
 import GalleryPage from './pages/GalleryPage'
+import LostPage from './pages/LostPage'
 import SurprisePage from './pages/SurprisePage'
 import { ACCENTS } from './components/ColourSlider'
 import SocialLinks from './components/SocialLinks'
@@ -109,7 +110,8 @@ export default function App() {
   }, [])
 
   let page
-  if (route === '/cv') page = <CVPage />
+  if (route === '/') page = <HomePage />
+  else if (route === '/cv') page = <CVPage />
   else if (route === '/gallery') page = <GalleryPage />
   else if (route === '/surprise')
     page = (
@@ -119,7 +121,7 @@ export default function App() {
         robotOn={robotOn}
       />
     )
-  else page = <HomePage />
+  else page = <LostPage />
 
   return (
     <div className="app" style={{ '--accent': accent }}>
