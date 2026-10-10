@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage'
 import CVPage from './pages/CVPage'
 import GalleryPage from './pages/GalleryPage'
 import LostPage from './pages/LostPage'
+import NotFoundPage from './pages/NotFoundPage'
 import SurprisePage from './pages/SurprisePage'
 import { ACCENTS } from './components/ColourSlider'
 import SocialLinks from './components/SocialLinks'
@@ -36,6 +37,7 @@ export default function App() {
   const robotRef = useRef(null)
   const busyRef = useRef(false)
   const timersRef = useRef([])
+  const homeBtnRef = useRef(null)
 
   useEffect(() => {
     const onHashChange = () => setRoute(getRoute())
@@ -99,6 +101,11 @@ export default function App() {
     },
     [schedule, robotOn],
   )
+
+  const goHome = useCallback(
+    () => navigate('/', homeBtnRef.current),
+    [navigate],
+  )
   const handleSocial = useCallback((node) => {
     if (!robotRef.current || !node) return
     const rect = node.getBoundingClientRect()
@@ -121,7 +128,9 @@ export default function App() {
         robotOn={robotOn}
       />
     )
-  else page = <LostPage />
+  else if (route === '/lost') page = <LostPage />
+  else
+    page = <NotFoundPage onHome={goHome} homeRef={homeBtnRef} />
 
   return (
     <div className="app" style={{ '--accent': accent }}>

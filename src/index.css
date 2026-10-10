@@ -386,6 +386,42 @@ body {
   margin-top: 40px;
 }
 
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 16px;
+}
+
+.title-row h1 {
+  margin-bottom: 0;
+}
+
+.sad-robot {
+  display: block;
+  color: var(--accent, #ffffff);
+  opacity: 0.8;
+}
+
+.home-button {
+  margin-top: 28px;
+  padding: 12px 22px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--accent, #ffffff);
+  background: transparent;
+  border: 1px solid var(--accent, #ffffff);
+  border-radius: 6px;
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.home-button:hover {
+  opacity: 1;
+}
+
 .lost-link {
   color: var(--accent, #ffffff);
   text-decoration: underline;
