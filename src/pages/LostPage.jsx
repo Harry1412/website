@@ -1,23 +1,10 @@
-const LINKS = [
-  {
-    name: 'Website',
-    url: 'https://harrybromley.com',
-  },
-  {
-    name: 'GitHub',
-    url: 'https://github.harrybromley.com',
-  },
-  {
-    name: 'LinkedIn',
-    url: 'https://linkedin.harrybromley.com',
-  },
-]
+import { LINKS } from '../data/links'
 
 export default function LostPage() {
   return (
     <section className="panel">
       <h1>Lost?</h1>
-      <p>If looks like you may be lost. If you are seeing this page you were 
+      <p>It looks like you may be lost. If you are seeing this page you were 
         likely trying to access an invalid sub-domain of 'harrybromley.com' or
         'bromley.sh'.</p>
       <div className="home-recs lost-list">

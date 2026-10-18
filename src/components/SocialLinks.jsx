@@ -1,4 +1,4 @@
-const LINKS = [
+const SOCIAL_LINKS = [
   {
     name: 'LinkedIn',
     href: 'https://www.linkedin.com/in/harry-bromley/',
@@ -14,7 +14,7 @@ const LINKS = [
 export default function SocialLinks({ onActivate }) {
   return (
     <div className="socials">
-      {LINKS.map((l) => (
+      {SOCIAL_LINKS.map((l) => (
         <a
           key={l.name}
           className="social-link"

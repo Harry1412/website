@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage'
 import CVPage from './pages/CVPage'
 import GalleryPage from './pages/GalleryPage'
 import LostPage from './pages/LostPage'
+import HelloPage from './pages/HelloPage'
 import NotFoundPage from './pages/NotFoundPage'
 import SurprisePage from './pages/SurprisePage'
 import { ACCENTS } from './components/ColourSlider'
@@ -129,6 +130,7 @@ export default function App() {
       />
     )
   else if (route === '/lost') page = <LostPage />
+  else if (route === '/hello') page = <HelloPage />
   else
     page = <NotFoundPage onHome={goHome} homeRef={homeBtnRef} />
 
