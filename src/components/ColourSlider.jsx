@@ -1,5 +1,9 @@
 export const ACCENTS = ['#ffffff', '#dadada', '#a0a0a0']
 
+// christmas mode swaps the outer shades for festive green and red (matching the
+// santa suit); the middle default white stays the same
+export const CHRISTMAS_ACCENTS = ['#27ae60', '#dadada', '#c0392b']
+
 function RobotFace({ filled }) {
   return (
     <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
@@ -53,11 +57,13 @@ export default function ColourSlider({
   onChange,
   robotOn,
   onToggleRobot,
+  christmas,
 }) {
+  const dots = christmas ? CHRISTMAS_ACCENTS : ACCENTS
   return (
     <div className="colour-slider">
       <div role="radiogroup" aria-label="Accent colour" className="colour-dots">
-        {ACCENTS.map((c) => (
+        {dots.map((c) => (
           <button
             key={c}
             type="button"

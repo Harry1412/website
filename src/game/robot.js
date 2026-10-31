@@ -58,6 +58,7 @@ export class Robot {
     this.showFloor = false
     this.dance = 0
     this.accent = '#ffffff'
+    this.santa = false
   }
 
   resetFor(size) {
@@ -280,18 +281,122 @@ export class Robot {
 
     ctx.strokeStyle = this.accent
     ctx.lineWidth = 3
+    if (!this.santa) {
+      ctx.beginPath()
+      ctx.moveTo(1, -72)
+      ctx.lineTo(1, -83)
+      ctx.stroke()
+      ctx.beginPath()
+      ctx.arc(1, -87, 3.5, 0, TAU)
+      ctx.fill()
+    }
+
+    ctx.fillStyle = '#000000'
     ctx.beginPath()
-    ctx.moveTo(1, -72)
-    ctx.lineTo(1, -83)
-    ctx.stroke()
+    ctx.arc(-5, -63, 3, 0, TAU)
+    ctx.arc(5, -63, 3, 0, TAU)
+    ctx.fill()
+
+    if (this.santa) this.drawSantaSuit(ctx, s)
+  }
+
+  // santa outfit layered over the usual robot body. runs in the same
+  // transformed space as drawActor, so it inherits bob/tilt/facing.
+  drawSantaSuit(ctx, s) {
+    // recompute the same arm angles drawActor uses, since they are local to it
+    const armSwing = s.walking ? -s.swing * 0.45 : 0
+    const waveBase = -this.wave * Math.PI * 0.9
+    const waveOsc = this.wave * Math.sin(this.clock * 8) * 0.35
+    const armL = armSwing - s.raise * Math.PI * 0.95 + s.danceArm
+    const armR =
+      -armSwing + s.raise * Math.PI * 0.95 + waveBase + waveOsc - s.danceArm
+    const legL = s.swing * 0.4
+    const legR = -s.swing * 0.4
+
+    // red coat over the torso
+    ctx.fillStyle = '#c0392b'
     ctx.beginPath()
-    ctx.arc(1, -87, 3.5, 0, TAU)
+    ctx.roundRect(-19, -62, 38, 34, 7)
+    ctx.fill()
+
+    // white fur collar across the top of the coat
+    ctx.fillStyle = '#f5f5f0'
+    ctx.beginPath()
+    ctx.roundRect(-19, -62, 38, 6, 3)
+    ctx.fill()
+
+    // white trim down the front
+    ctx.beginPath()
+    ctx.roundRect(-3.5, -62, 7, 34, 3)
+    ctx.fill()
+
+    // black belt with a gold buckle
+    ctx.fillStyle = '#2b2b2b'
+    ctx.beginPath()
+    ctx.roundRect(-19, -39, 38, 7, 3)
+    ctx.fill()
+    ctx.fillStyle = '#f0c419'
+    ctx.beginPath()
+    ctx.roundRect(-4.5, -39, 9, 7, 2)
+    ctx.fill()
+
+    // white cuffs at the wrists (arms extend from the shoulder at an angle,
+    // so the cuff sits at a fixed fraction along the limb)
+    const cuff = (px, py, len, ang, t) => {
+      const x = px - len * t * Math.sin(ang)
+      const y = py + len * t * Math.cos(ang)
+      ctx.beginPath()
+      ctx.arc(x, y, 4.5, 0, TAU)
+      ctx.fill()
+    }
+    cuff(-18, -62, 26, armL, 0.82)
+    cuff(18, -62, 26, armR, 0.82)
+
+    // black boots on the feet
+    const boot = (px, ang) => {
+      const x = px - 26 * Math.sin(ang)
+      const y = -26 - s.stepLift + 26 * Math.cos(ang)
+      ctx.beginPath()
+      ctx.roundRect(x - 5, y - 8, 10, 9, 3)
+      ctx.fill()
+    }
+    ctx.fillStyle = '#2b2b2b'
+    boot(-9, legL)
+    boot(9, legR)
+
+    // the coat's shoulders sit behind the head, so redraw the face over it
+    // (same shapes and order as drawActor: grille, then head, then eyes)
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.35)'
+    ctx.beginPath()
+    ctx.roundRect(-9, -52, 18, 6, 2)
+    ctx.fill()
+
+    ctx.fillStyle = this.accent
+    ctx.beginPath()
+    ctx.roundRect(-15, -72, 30, 22, 6)
     ctx.fill()
 
     ctx.fillStyle = '#000000'
     ctx.beginPath()
     ctx.arc(-5, -63, 3, 0, TAU)
     ctx.arc(5, -63, 3, 0, TAU)
+    ctx.fill()
+
+    // santa hat, flopping to the front, in place of the antenna
+    ctx.fillStyle = '#c0392b'
+    ctx.beginPath()
+    ctx.moveTo(-15, -77)
+    ctx.quadraticCurveTo(0, -102, 17, -93)
+    ctx.lineTo(16, -77)
+    ctx.closePath()
+    ctx.fill()
+
+    ctx.fillStyle = '#f5f5f0'
+    ctx.beginPath()
+    ctx.roundRect(-17, -78, 34, 7, 3)
+    ctx.fill()
+    ctx.beginPath()
+    ctx.arc(18, -94, 4, 0, TAU)
     ctx.fill()
   }
 }

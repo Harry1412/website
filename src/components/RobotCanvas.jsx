@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Robot } from '../game/robot'
 
-export default function RobotCanvas({ robotRef, accent, enabled }) {
+export default function RobotCanvas({ robotRef, accent, enabled, christmas }) {
   const canvasRef = useRef(null)
   const robot = useRef(null)
   const enabledRef = useRef(enabled)
@@ -78,6 +78,10 @@ export default function RobotCanvas({ robotRef, accent, enabled }) {
   useEffect(() => {
     if (robot.current) robot.current.accent = accent
   }, [accent])
+
+  useEffect(() => {
+    if (robot.current) robot.current.santa = christmas
+  }, [christmas])
 
   useEffect(() => {
     enabledRef.current = enabled

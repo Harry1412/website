@@ -10,6 +10,7 @@ import NotFoundPage from './pages/NotFoundPage'
 import SurprisePage from './pages/SurprisePage'
 import { ACCENTS } from './components/ColourSlider'
 import SocialLinks from './components/SocialLinks'
+import { isChristmasMode } from './data/christmas'
 
 const EXPAND_MS = 340
 const CONTRACT_MS = 420
@@ -35,6 +36,7 @@ export default function App() {
   const [accent, setAccent] = useState(ACCENTS[1])
   const [robotOn, setRobotOn] = useState(false)
   const [solved, setSolved] = useState(false)
+  const christmas = isChristmasMode()
   const robotRef = useRef(null)
   const busyRef = useRef(false)
   const timersRef = useRef([])
@@ -136,7 +138,12 @@ export default function App() {
 
   return (
     <div className="app" style={{ '--accent': accent }}>
-      <RobotCanvas robotRef={robotRef} accent={accent} enabled={robotOn} />
+      <RobotCanvas
+        robotRef={robotRef}
+        accent={accent}
+        enabled={robotOn}
+        christmas={christmas}
+      />
       <main className="page" key={route}>
         {page}
       </main>
@@ -147,6 +154,7 @@ export default function App() {
         onAccentChange={setAccent}
         robotOn={robotOn}
         onToggleRobot={() => setRobotOn((r) => !r)}
+        christmas={christmas}
       />
       {route === '/' && <SocialLinks onActivate={handleSocial} />}
       {cover && (
